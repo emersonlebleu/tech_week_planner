@@ -365,7 +365,7 @@
         class="bg-gradient-to-r from-slate-900 to-slate-800 text-white px-6 py-2 sticky top-0 z-50 flex items-center justify-between">
         <h1 class="text-xl font-bold">Utah Tech Week + Silicon Slopes Summit 2026
             <span class="italic text-sm font-thin pl-3">
-                Events Updated: Jan 27, 2026</span>
+                Events Updated: Jan 28, 2026</span>
         </h1>
         <div class="flex items-center gap-3">
             <span class="bg-emerald-500/80 px-3 py-1 rounded-full text-sm flex items-center gap-2">
@@ -567,6 +567,87 @@
             document.getElementById('hidden-indicator').style.display = count > 0 ? '' : 'none';
         }
 
+        // Migration map: old event IDs → new event IDs (for Jan 28, 2026 schedule update)
+        const MIGRATIONS_V2 = {
+            // Wednesday changes
+            'wed_7_00_Registration___Networking': 'wed_7_00_Check_In___Networking',
+            'wed_9_00_Opening_Remarks': 'wed_9_00_Who_Gets_To_Be_An_Entrepreneur_',
+            'wed_9_15_Keynote': 'wed_9_00_Who_Gets_To_Be_An_Entrepreneur_',
+            'wed_11_00_Gaming_and_Music___Connecting_the_World': 'wed_11_00_Gaming_and_Music__Connecting_the_World',
+            'wed_13_30_Scaling_Intelligence__From_LLMs_to_Multi_Modal_Agents': 'wed_13_30_Scaling_Models_Beyond_LLMs__Multimodal_Agents_and_Tool_Use',
+            'wed_14_00_E_Commerce_Panel': 'wed_14_00_TBA',
+            'wed_15_45_The_Leadership_Operating_System': 'wed_15_30_The_Leadership_Operating_System__Clarity_in_an_Urgent_World',
+            'wed_17_00_VIP_Party': 'wed_17_00_After_Parties___Networking',
+
+            // Thursday changes
+            'thu_8_00_Registration___Networking': 'thu_8_00_Check_In___Networking',
+            'thu_9_00_Opening_Remarks': 'thu_9_00_AI_in_Regulated_Industries',
+            'thu_9_15_AI_in_Regulated_Industries': 'thu_9_00_AI_in_Regulated_Industries',
+            'thu_9_45_Where_is_the_Value_in_AI_Being_Created__Hype_or_Bubble_': 'thu_9_45_Where_is_the_Value_in_AI_Being_Created__Are_We_in_a_Hype_Cycle_or_a_Bubble_',
+            'thu_10_30_Architect_of_Joy': 'thu_10_30_Architect_of_Joy__Creativity__Innovation',
+            'thu_11_30_Unforgettable_Presence': 'thu_11_30_In_Conversation__Unforgettable_Presence',
+            'thu_13_00_Partnership_as_Power': 'thu_13_00_Partnership_as_Power__How_Collaboration_and_Shared_Purpose_Drive_Innovation',
+            'thu_13_30_How_Does_a_VC_Evaluate_AI_Startups_Beyond_the_Hype_': 'thu_13_30_How_Does_a_VC_Evaluate_AI_Startups_Beyond_the_Hype__Tips_For_Entrepreneurs',
+            'thu_15_45_From_Connection_to_Action': 'fri_13_30_From_Connection_to_Action__Harnessing_the_Power_of_Family_Caregivers_for_AI_Innovation',
+
+            // Friday changes
+            'fri_8_00_Registration___Networking': 'fri_8_00_Check_In___Networking',
+            'fri_9_05_In_Conversation__Crafting_Comedy': 'fri_9_00_In_Conversation__Crafting_Comedy',
+            'fri_10_00_AI_Will_Run_Revenue': 'fri_11_15_AI_Will_Run_Revenue',
+            'fri_10_30_Leadership_by_Design': 'fri_11_00_Leadership_by_Design',
+            'fri_10_45_What_s_Your_Story__AI_as_a_Creative_Collaborator': 'thu_15_00_What_s_Your_Story__AI_as_a_Creative_Collaborator',
+            'fri_13_00_From_Startup_to_Public_Company': 'fri_13_00_From_Startup_to_Public_Company__Building_Category_Leadership_in_the_Age_of_AI',
+            'fri_13_30_AI_is_Only_as_Smart_as_Your_Data': 'thu_15_45_AI_Is_Only_As_Smart_As_Your_Data__Resilience__Security__and_Trust_in_the_AI_Era',
+            'fri_15_00_Artificial_Intelligence_vs_Artificial_Innovation': 'fri_15_00_TBA',
+            'fri_15_30_CIO_Panel': 'fri_15_30_The_AI_Ready_Enterprise__What_CIOs_Must_Get_Right_Now',
+            'fri_16_00_Sports_Panel': 'fri_16_00_TBA',
+            'fri_17_00_The_Watch_Party': 'fri_17_00_After_Parties___Networking',
+
+            // Saturday changes
+            'sat_11_00_Winter_Roundup': 'sat_9_00_Winter_Roundup'
+        };
+
+        // Helper: migrate a data object (schedule or hidden) through the migration map
+        function migrateDataObject(data) {
+            let migrated = false;
+            Object.keys(MIGRATIONS_V2).forEach(oldId => {
+                if (data[oldId]) {
+                    const newId = MIGRATIONS_V2[oldId];
+                    const newDay = newId.substring(0, 3);
+                    data[newId] = {
+                        ...data[oldId],
+                        day: newDay
+                    };
+                    delete data[oldId];
+                    migrated = true;
+                    console.log(`Migrated: ${oldId} → ${newId}`);
+                }
+            });
+            return migrated;
+        }
+
+        // Run migration on page load to preserve user's saved schedule
+        function migrateUserData() {
+            const MIGRATION_KEY = 'utw_migration_v2';
+            if (localStorage.getItem(MIGRATION_KEY)) return; // Already migrated
+
+            // Migrate schedule
+            const schedule = getSchedule();
+            const scheduleMigrated = migrateDataObject(schedule);
+            if (scheduleMigrated) saveSchedule(schedule);
+
+            // Migrate hidden
+            const hidden = getHidden();
+            const hiddenMigrated = migrateDataObject(hidden);
+            if (hiddenMigrated) saveHidden(hidden);
+
+            // Mark migration complete
+            localStorage.setItem(MIGRATION_KEY, Date.now().toString());
+            if (scheduleMigrated || hiddenMigrated) {
+                console.log('Schedule migration complete!');
+            }
+        }
+
         function clearAllHidden() {
             if (!confirm('Unhide all hidden events?')) return;
             saveHidden({});
@@ -729,6 +810,12 @@
 
                     if (!confirm(msg)) return;
 
+                    // Migrate imported data to handle old IDs from previous exports
+                    const scheduleMigrated = migrateDataObject(importData.schedule);
+                    if (importData.hidden) {
+                        migrateDataObject(importData.hidden);
+                    }
+
                     // Import the data
                     saveSchedule(importData.schedule);
                     if (importData.hidden) {
@@ -736,7 +823,8 @@
                     }
 
                     renderEvents();
-                    alert('Schedule imported successfully!');
+                    const migratedMsg = scheduleMigrated ? ' (some events were updated to match the new schedule)' : '';
+                    alert('Schedule imported successfully!' + migratedMsg);
                 } catch (err) {
                     console.error('Import error:', err);
                     alert('Failed to import schedule. The file may be corrupted.');
@@ -948,6 +1036,9 @@
         }
 
         async function init() {
+            // Run migration before loading data to update user's saved IDs
+            migrateUserData();
+
             await loadData();
 
             // Detect mobile and narrow screen
