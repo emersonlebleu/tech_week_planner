@@ -64,7 +64,8 @@
 
             .event-card:hover {
                 overflow: visible;
-                min-height: max(70px, var(--event-height, 70px)) !important;
+                height: auto !important;
+                min-height: var(--event-height, 70px) !important;
             }
 
             .event-card.bg-emerald-100\/80:hover {
@@ -87,7 +88,7 @@
             right: 4px;
             top: 4px;
             flex-direction: column;
-            gap: 4px;
+            gap: 3px;
             z-index: 10;
         }
 
@@ -98,32 +99,62 @@
         }
 
         .btn-row {
-            display: flex !important;
-            flex-direction: row !important;
-            gap: 4px;
+            display: flex;
+            gap: 3px;
+            width: 100%;
         }
 
+        /* Icon buttons for schedule/hide - flex to fill row */
         .btn-row button {
             flex: 1;
-            padding: 5px 8px;
-            border-radius: 5px;
+            min-width: 22px;
+            height: 22px;
+            padding: 0;
+            border-radius: 4px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 11px;
-            font-weight: 600;
+            font-size: 12px;
             cursor: pointer;
-            text-decoration: none;
             background: white;
-            color: #374151;
             transition: background 0.1s;
-            white-space: nowrap;
+            border: 1px solid #d1d5db;
         }
 
-        .hover-actions>a.btn-link {
+        /* Add button - green checkmark */
+        .btn-schedule {
+            color: #059669;
+            border-color: #10b981;
+        }
+
+        .btn-schedule:hover {
+            background: #d1fae5 !important;
+        }
+
+        /* Remove button - red X when in schedule */
+        .btn-schedule.in-schedule {
+            color: #dc2626;
+            border-color: #f87171;
+        }
+
+        .btn-schedule.in-schedule:hover {
+            background: #fee2e2 !important;
+        }
+
+        /* Hide button */
+        .btn-hide {
+            color: #6b7280;
+        }
+
+        .btn-hide:hover {
+            background: #f3f4f6 !important;
+        }
+
+        /* Text link for View/Schedule */
+        .hover-actions > a.btn-link {
             display: flex;
-            padding: 4px 8px;
-            border-radius: 5px;
+            padding: 3px 8px;
+            border-radius: 4px;
             align-items: center;
             justify-content: center;
             font-size: 10px;
@@ -134,36 +165,24 @@
             color: #374151;
             transition: background 0.1s;
             white-space: nowrap;
+            border: 1px solid #d1d5db;
+        }
+
+        .btn-link:hover {
+            background: #f3f4f6 !important;
         }
 
         /* Color-coded borders based on event type */
-        .event-card.border-l-blue-400 .btn-row button,
         .event-card.border-l-blue-400 .btn-link {
-            border: 1px solid #60a5fa;
+            border-color: #60a5fa;
         }
 
-        .event-card.border-l-orange-400 .btn-row button,
         .event-card.border-l-orange-400 .btn-link {
-            border: 1px solid #fb923c;
+            border-color: #fb923c;
         }
 
-        .event-card.border-l-emerald-500 .btn-row button,
         .event-card.border-l-emerald-500 .btn-link {
-            border: 1px solid #10b981;
-        }
-
-        .hover-actions button:hover,
-        .hover-actions a:hover {
-            background: #f3f4f6;
-        }
-
-        .btn-schedule.in-schedule {
-            background: #d1fae5;
-            color: #047857;
-        }
-
-        .btn-schedule.in-schedule:hover {
-            background: #a7f3d0;
+            border-color: #10b981;
         }
 
         /* Hide "All" day button on narrower screens */
@@ -342,11 +361,15 @@
             }
 
             /* Larger touch targets for action buttons on mobile */
-            .hover-actions button,
-            .hover-actions a {
-                padding: 8px 12px !important;
-                font-size: 12px !important;
-                min-height: 44px;
+            .btn-row button {
+                width: 32px !important;
+                height: 32px !important;
+                font-size: 14px !important;
+            }
+
+            .hover-actions > a.btn-link {
+                padding: 6px 10px !important;
+                font-size: 11px !important;
             }
 
             /* Modal - ensure buttons are tappable */
@@ -1255,19 +1278,20 @@
 
                     const scheduleIcon = inSchedule ? '<span class="text-emerald-600">✓</span> ' : '';
                     const schedBtnClass = inSchedule ? 'btn-schedule in-schedule' : 'btn-schedule';
-                    const schedBtnText = inSchedule ? '✓ Added' : '+ Add';
+                    const schedBtnIcon = inSchedule ? '✕' : '✓';
+                    const schedBtnTitle = inSchedule ? 'Remove from schedule' : 'Add to schedule';
                     const linkText = e.type === 'summit' ? 'Schedule' : (e.url ? 'View' : 'Find');
 
                     div.innerHTML = `
-                        <div class="font-semibold leading-tight pr-16">${scheduleIcon}${e.title}</div>
+                        <div class="font-semibold leading-tight pr-14">${scheduleIcon}${e.title}</div>
                         <div class="text-gray-500 text-[10px] hidden-time">${formatTime(e.time)} - ${formatEndTime(e.time, e.duration)}</div>
                         <div class="text-gray-600 text-[10px] truncate hidden-detail">${e.location}</div>
                         <div class="flex gap-1 flex-wrap mt-0.5">${areaTag} ${badge}</div>
                         ${e.speaker ? `<div class="text-gray-500 italic text-[9px] truncate hidden-detail">${e.speaker}</div>` : ''}
                         <div class="hover-actions">
                             <div class="btn-row">
-                                <button class="${schedBtnClass}">${schedBtnText}</button>
-                                <button class="btn-hide">Hide</button>
+                                <button class="${schedBtnClass}" title="${schedBtnTitle}">${schedBtnIcon}</button>
+                                <button class="btn-hide" title="Hide event">⊘</button>
                             </div>
                             <a href="${getEventUrl(e)}" target="_blank" class="btn-link">${linkText}</a>
                         </div>
