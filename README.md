@@ -2,6 +2,8 @@
 
 A consolidated calendar view for planning your week at Utah Tech Week and the Silicon Slopes Summit (February 2-7, 2026).
 
+**Live Site:** https://emersonlebleu.github.io/tech_week_planner/
+
 ## Source Data
 
 This calendar combines events from two sources, scraped on **January 27, 2026**:
@@ -11,7 +13,7 @@ This calendar combines events from two sources, scraped on **January 27, 2026**:
 
 ## How to Use
 
-1. Open `tech_week_calendar.html` in your browser
+1. Visit the [live site](https://emersonlebleu.github.io/tech_week_planner/) or open `index.html` locally
 2. Browse events by day, type, or location
 3. Hover over events to see details and action buttons
 4. Click "add" to add events to your schedule
