@@ -42,6 +42,7 @@
         { "time": "4:30 PM", "title": "Out-of-Town VC Happy Hour", "location": "Felt Bar, Downtown SLC", "area": "downtown", "flagged": true, "spots": 5, "approval_required": true, "url": "https://luma.com/9g1a72o7" },
         { "time": "5:00 PM", "title": "Utah HealthTech Network Launch", "location": "Microsoft, Lehi", "area": "lehi", "flagged": true, "status": "full", "url": "https://app.getriver.io/beta/events/utah-healthtech-network-launch-event-bn3" },
         { "time": "5:30 PM", "title": "Building the Future: Pinterest, Lucid, SchoolAI", "location": "Lehi", "area": "lehi", "attending": 71 },
+        { "time": "6:00 PM", "title": "Tech-Moms x Women Tech Council 3x3 Networking", "location": "Ancestry, Lehi", "area": "lehi", "url": "https://www.tech-moms.org/event-details-registration/tech-moms-x-women-tech-council-3x3-networking-event" },
         { "time": "6:00 PM", "title": "Utopian City Building", "location": "HAVN, Downtown SLC", "area": "downtown", "flagged": true, "url": "https://luma.com/aeycymmq" },
         { "time": "6:00 PM", "title": "GenAIPI + Replit AI Event at DreamWalk", "location": "Orem", "area": "lehi", "attending": 288 },
         { "time": "7:00 PM", "title": "Vibe-a-thon", "location": "JobNimbus, Lehi", "area": "lehi", "flagged": true, "spots": 22, "attending": 78, "url": "https://app.getriver.io/beta/events/vibe-a-thon-6nlk" },
