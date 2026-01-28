@@ -56,6 +56,7 @@
         }
 
         @media (hover: hover) {
+
             .event-card:hover .hidden-time,
             .event-card:hover .hidden-detail {
                 display: block;
@@ -119,7 +120,7 @@
             white-space: nowrap;
         }
 
-        .hover-actions > a.btn-link {
+        .hover-actions>a.btn-link {
             display: flex;
             padding: 4px 8px;
             border-radius: 5px;
@@ -174,6 +175,7 @@
 
         /* Mobile Styles */
         @media (max-width: 768px) {
+
             /* Header stacking */
             header {
                 flex-direction: column;
@@ -186,7 +188,7 @@
                 text-align: center;
             }
 
-            header > div {
+            header>div {
                 flex-wrap: wrap;
                 justify-content: center;
                 gap: 8px;
@@ -222,7 +224,9 @@
             }
 
             /* Tap-friendly filter buttons - not too chunky */
-            .day-btn, .filter-btn, .loc-btn {
+            .day-btn,
+            .filter-btn,
+            .loc-btn {
                 padding: 6px 10px !important;
                 font-size: 11px !important;
             }
@@ -353,17 +357,24 @@
     <!-- Header -->
     <header
         class="bg-gradient-to-r from-slate-900 to-slate-800 text-white px-6 py-2 sticky top-0 z-50 flex items-center justify-between">
-        <h1 class="text-xl font-bold">Utah Tech Week + Silicon Slopes Summit 2026</h1>
+        <h1 class="text-xl font-bold">Utah Tech Week + Silicon Slopes Summit 2026
+            <span class="italic text-sm font-thin pl-3">
+                Events Updated: Jan 27, 2026</span>
+        </h1>
         <div class="flex items-center gap-3">
-            <span class="bg-white/20 px-3 py-1 rounded-full text-sm mobile-hide-hint">Click events to add to schedule</span>
+            <span class="bg-white/20 px-3 py-1 rounded-full text-sm mobile-hide-hint">Click events to add to
+                schedule</span>
             <span class="bg-emerald-500/80 px-3 py-1 rounded-full text-sm flex items-center gap-2">
                 <span id="flagged-count">0</span> in schedule
-                <button onclick="clearDaySchedule()" class="text-xs bg-white/20 hover:bg-white/30 px-2 py-1 rounded min-h-[28px]"
-                    id="clear-day-btn" style="display:none;">Clear Day</button>
-                <button onclick="clearAllSchedule()" class="text-xs bg-white/20 hover:bg-white/30 px-2 py-1 rounded min-h-[28px]"
-                    id="clear-all-btn" style="display:none;">Clear</button>
-                <button onclick="exportSchedule()" class="text-xs bg-white/20 hover:bg-white/30 px-2 py-1 rounded min-h-[28px]"
-                    id="export-btn" style="display:none;">Export</button>
+                <button onclick="clearDaySchedule()"
+                    class="text-xs bg-white/20 hover:bg-white/30 px-2 py-1 rounded min-h-[28px]" id="clear-day-btn"
+                    style="display:none;">Clear Day</button>
+                <button onclick="clearAllSchedule()"
+                    class="text-xs bg-white/20 hover:bg-white/30 px-2 py-1 rounded min-h-[28px]" id="clear-all-btn"
+                    style="display:none;">Clear</button>
+                <button onclick="exportSchedule()"
+                    class="text-xs bg-white/20 hover:bg-white/30 px-2 py-1 rounded min-h-[28px]" id="export-btn"
+                    style="display:none;">Export</button>
             </span>
             <span id="hidden-indicator" class="bg-gray-500/80 px-3 py-1 rounded-full text-sm flex items-center gap-2"
                 style="display:none;">
@@ -388,15 +399,21 @@
             <span class="filter-label text-xs text-gray-500 flex-shrink-0">Day:</span>
             <button class="day-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-blue-600 text-white flex-shrink-0"
                 data-day="all">All</button>
-            <button class="day-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-gray-200 flex-shrink-0" data-day="mon">Mon 2</button>
-            <button class="day-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-gray-200 flex-shrink-0" data-day="tue">Tue 3</button>
-            <button class="day-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-gray-200 ring-1 ring-orange-400 flex-shrink-0"
+            <button class="day-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-gray-200 flex-shrink-0"
+                data-day="mon">Mon 2</button>
+            <button class="day-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-gray-200 flex-shrink-0"
+                data-day="tue">Tue 3</button>
+            <button
+                class="day-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-gray-200 ring-1 ring-orange-400 flex-shrink-0"
                 data-day="wed">Wed 4</button>
-            <button class="day-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-gray-200 ring-1 ring-orange-400 flex-shrink-0"
+            <button
+                class="day-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-gray-200 ring-1 ring-orange-400 flex-shrink-0"
                 data-day="thu">Thu 5</button>
-            <button class="day-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-gray-200 ring-1 ring-orange-400 flex-shrink-0"
+            <button
+                class="day-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-gray-200 ring-1 ring-orange-400 flex-shrink-0"
                 data-day="fri">Fri 6</button>
-            <button class="day-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-gray-200 ring-1 ring-orange-400 flex-shrink-0"
+            <button
+                class="day-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-gray-200 ring-1 ring-orange-400 flex-shrink-0"
                 data-day="sat">Sat 7</button>
         </div>
 
@@ -404,22 +421,28 @@
             <span class="filter-label text-xs text-gray-500 flex-shrink-0">Type:</span>
             <button class="filter-btn px-3 py-1.5 rounded-full text-xs border bg-slate-800 text-white flex-shrink-0"
                 data-filter="all">All</button>
-            <button class="filter-btn px-3 py-1.5 rounded-full text-xs border flex-shrink-0" data-filter="tech-week">Tech
+            <button class="filter-btn px-3 py-1.5 rounded-full text-xs border flex-shrink-0"
+                data-filter="tech-week">Tech
                 Week</button>
-            <button class="filter-btn px-3 py-1.5 rounded-full text-xs border flex-shrink-0" data-filter="summit">Summit</button>
+            <button class="filter-btn px-3 py-1.5 rounded-full text-xs border flex-shrink-0"
+                data-filter="summit">Summit</button>
             <button class="filter-btn px-3 py-1.5 rounded-full text-xs border flex-shrink-0" data-filter="flagged">My
                 Schedule</button>
-            <button class="filter-btn px-3 py-1.5 rounded-full text-xs border flex-shrink-0" data-filter="hidden">Hidden</button>
+            <button class="filter-btn px-3 py-1.5 rounded-full text-xs border flex-shrink-0"
+                data-filter="hidden">Hidden</button>
         </div>
 
         <div class="filter-group flex gap-2 items-center flex-nowrap">
             <span class="filter-label text-xs text-gray-500 flex-shrink-0">Area:</span>
             <button class="loc-btn px-3 py-1.5 rounded-full text-xs border bg-slate-800 text-white flex-shrink-0"
                 data-location="all">All</button>
-            <button class="loc-btn px-3 py-1.5 rounded-full text-xs border flex-shrink-0" data-location="downtown">Downtown
+            <button class="loc-btn px-3 py-1.5 rounded-full text-xs border flex-shrink-0"
+                data-location="downtown">Downtown
                 SLC</button>
-            <button class="loc-btn px-3 py-1.5 rounded-full text-xs border flex-shrink-0" data-location="lehi">Lehi</button>
-            <button class="loc-btn px-3 py-1.5 rounded-full text-xs border flex-shrink-0" data-location="draper">Draper</button>
+            <button class="loc-btn px-3 py-1.5 rounded-full text-xs border flex-shrink-0"
+                data-location="lehi">Lehi</button>
+            <button class="loc-btn px-3 py-1.5 rounded-full text-xs border flex-shrink-0"
+                data-location="draper">Draper</button>
         </div>
 
         <div class="legend-desktop flex gap-4 ml-auto text-xs">
@@ -759,8 +782,8 @@
         function detectMobile() {
             // Check for touch capability or narrow screen
             isMobile = window.matchMedia('(max-width: 768px)').matches ||
-                       ('ontouchstart' in window) ||
-                       (navigator.maxTouchPoints > 0);
+                ('ontouchstart' in window) ||
+                (navigator.maxTouchPoints > 0);
             return isMobile;
         }
 
