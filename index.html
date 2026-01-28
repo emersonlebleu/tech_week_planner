@@ -173,6 +173,19 @@
             }
         }
 
+        /* Small screen filter centering */
+        @media (max-width: 900px) {
+            .filter-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .filter-group {
+                justify-content: center;
+            }
+        }
+
         /* Mobile Styles */
         @media (max-width: 768px) {
 
@@ -194,15 +207,8 @@
                 gap: 8px;
             }
 
-            /* Hide the "Click events to add" hint on mobile */
-            .mobile-hide-hint {
-                display: none !important;
-            }
-
             /* Filter bar */
             .filter-container {
-                flex-direction: column;
-                gap: 10px;
                 padding: 12px;
             }
 
@@ -362,10 +368,8 @@
                 Events Updated: Jan 27, 2026</span>
         </h1>
         <div class="flex items-center gap-3">
-            <span class="bg-white/20 px-3 py-1 rounded-full text-sm mobile-hide-hint">Click events to add to
-                schedule</span>
             <span class="bg-emerald-500/80 px-3 py-1 rounded-full text-sm flex items-center gap-2">
-                <span id="flagged-count">0</span> in schedule
+                Schedule <span>(<span id="flagged-count">0</span>)</span>
                 <button onclick="clearDaySchedule()"
                     class="text-xs bg-white/20 hover:bg-white/30 px-2 py-1 rounded min-h-[28px]" id="clear-day-btn"
                     style="display:none;">Clear Day</button>
@@ -375,6 +379,9 @@
                 <button onclick="exportSchedule()"
                     class="text-xs bg-white/20 hover:bg-white/30 px-2 py-1 rounded min-h-[28px]" id="export-btn"
                     style="display:none;">Export</button>
+                <button onclick="importSchedule()"
+                    class="text-xs bg-white/20 hover:bg-white/30 px-2 py-1 rounded min-h-[28px]"
+                    id="import-btn">Import</button>
             </span>
             <span id="hidden-indicator" class="bg-gray-500/80 px-3 py-1 rounded-full text-sm flex items-center gap-2"
                 style="display:none;">
@@ -662,6 +669,16 @@
                 text += '\n\n';
             });
 
+            // Add import data at the bottom (base64-encoded JSON)
+            const importData = {
+                schedule: schedule,
+                hidden: getHidden(),
+                exported: new Date().toISOString()
+            };
+            const encoded = btoa(JSON.stringify(importData));
+            text += '\n--- IMPORT DATA (do not edit below) ---\n';
+            text += encoded + '\n';
+
             // Download as file
             const blob = new Blob([text], { type: 'text/plain' });
             const url = URL.createObjectURL(blob);
@@ -670,6 +687,62 @@
             a.download = 'tech-week-schedule.txt';
             a.click();
             URL.revokeObjectURL(url);
+        }
+
+        function importSchedule() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.txt';
+            input.onchange = async (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+
+                try {
+                    const text = await file.text();
+                    const marker = '--- IMPORT DATA (do not edit below) ---';
+                    const markerIndex = text.indexOf(marker);
+
+                    if (markerIndex === -1) {
+                        alert('No import data found in this file. Make sure you\'re using an exported schedule file.');
+                        return;
+                    }
+
+                    const encoded = text.slice(markerIndex + marker.length).trim();
+                    const importData = JSON.parse(atob(encoded));
+
+                    if (!importData.schedule) {
+                        alert('Invalid import data format.');
+                        return;
+                    }
+
+                    // Confirm before overwriting
+                    const currentCount = Object.keys(getSchedule()).length;
+                    const importCount = Object.keys(importData.schedule).length;
+                    let msg = `Import ${importCount} scheduled events`;
+                    if (importData.hidden) {
+                        msg += ` and ${Object.keys(importData.hidden).length} hidden events`;
+                    }
+                    msg += '?';
+                    if (currentCount > 0) {
+                        msg += `\n\nThis will replace your current ${currentCount} scheduled events.`;
+                    }
+
+                    if (!confirm(msg)) return;
+
+                    // Import the data
+                    saveSchedule(importData.schedule);
+                    if (importData.hidden) {
+                        saveHidden(importData.hidden);
+                    }
+
+                    renderEvents();
+                    alert('Schedule imported successfully!');
+                } catch (err) {
+                    console.error('Import error:', err);
+                    alert('Failed to import schedule. The file may be corrupted.');
+                }
+            };
+            input.click();
         }
 
         let events = [];
