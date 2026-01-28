@@ -1,0 +1,131 @@
+{
+  "metadata": {
+    "event": "Utah Tech Week 2026",
+    "dates": "February 2-7, 2026",
+    "total_events": 166
+  },
+  "events": [
+    {
+      "day": "Monday",
+      "date": "2026-02-02",
+      "events": [
+        { "time": "7:00 AM", "title": "UTW Run Club", "location": "South Jordan", "area": "other" },
+        { "time": "7:30 AM", "title": "Physical & Financial Vitality", "location": "Lehi", "area": "lehi" },
+        { "time": "8:30 AM", "title": "Founders' Fuel with Mayer Brown", "location": "SLC", "area": "downtown" },
+        { "time": "9:00 AM", "title": "Capital Strategies 101", "location": "Lehi", "area": "lehi" },
+        { "time": "9:00 AM", "title": "GTM Hackathon", "location": "Lehi", "area": "lehi", "duration": "all day" },
+        { "time": "10:00 AM", "title": "Culture Club by Awardco", "location": "Lindon", "area": "lehi" },
+        { "time": "11:00 AM", "title": "Build an AI Agent to Automate Your Life!", "location": "Draper", "area": "draper", "attending": 69 },
+        { "time": "11:00 AM", "title": "State of Healthcare Tech", "location": "Pleasant Grove", "area": "lehi" },
+        { "time": "12:00 PM", "title": "Bridge Builders: Mentorships", "location": "Lehi", "area": "lehi" },
+        { "time": "12:00 PM", "title": "Reindustrialize America: AI + Manufacturing", "location": "Lehi", "area": "lehi" },
+        { "time": "2:00 PM", "title": "Structuring for High-Value Exit", "location": "Lehi", "area": "lehi" },
+        { "time": "2:00 PM", "title": "The Power Pipeline: Women Into VC", "location": "Lehi", "area": "lehi" },
+        { "time": "3:00 PM", "title": "Clay Club Utah: Modern Outbound System", "location": "Lehi", "area": "lehi" },
+        { "time": "4:00 PM", "title": "$200k Pitch Competition", "location": "Pleasant Grove", "area": "lehi", "attending": 325 },
+        { "time": "6:00 PM", "title": "Utah Tech Week Opening Party", "location": "Pleasant Grove", "area": "lehi", "attending": 679 }
+      ]
+    },
+    {
+      "day": "Tuesday",
+      "date": "2026-02-03",
+      "events": [
+        { "time": "9:00 AM", "title": "Founder Funder Pickleball", "location": "Herriman", "area": "other", "attending": 50 },
+        { "time": "10:00 AM", "title": "Prompt Engineering Workshop", "location": "Draper", "area": "draper", "attending": 61 },
+        { "time": "10:00 AM", "title": "Networking for Introverts", "location": "Lehi", "area": "lehi", "attending": 32 },
+        { "time": "11:00 AM", "title": "Startup Validation Workshop", "location": "Kiln, Lehi", "area": "lehi", "flagged": true, "spots": 89, "url": "https://app.getriver.io/beta/events/startup-validation-workshop-presented-by-philo-ventures-antler-vc-k19" },
+        { "time": "11:00 AM", "title": "Rise of Resilience: 3x Olympian", "location": "Lehi", "area": "lehi", "attending": 37 },
+        { "time": "12:00 PM", "title": "Tech Procurement at Adobe HQ", "location": "Lehi", "area": "lehi" },
+        { "time": "12:00 PM", "title": "Tacos at Tech Week", "location": "Lehi", "area": "lehi", "attending": 81 },
+        { "time": "2:00 PM", "title": "Women in VC: Main Stage", "location": "Lehi", "area": "lehi" },
+        { "time": "4:00 PM", "title": "Utah Start-up All-Stars Pitch Night", "location": "Draper", "area": "draper", "attending": 155 },
+        { "time": "4:30 PM", "title": "Out-of-Town VC Happy Hour", "location": "Felt Bar, Downtown SLC", "area": "downtown", "flagged": true, "spots": 5, "approval_required": true, "url": "https://luma.com/9g1a72o7" },
+        { "time": "5:00 PM", "title": "Utah HealthTech Network Launch", "location": "Microsoft, Lehi", "area": "lehi", "flagged": true, "status": "full", "url": "https://app.getriver.io/beta/events/utah-healthtech-network-launch-event-bn3" },
+        { "time": "5:30 PM", "title": "Building the Future: Pinterest, Lucid, SchoolAI", "location": "Lehi", "area": "lehi", "attending": 71 },
+        { "time": "6:00 PM", "title": "Utopian City Building", "location": "HAVN, Downtown SLC", "area": "downtown", "flagged": true, "url": "https://luma.com/aeycymmq" },
+        { "time": "6:00 PM", "title": "GenAIPI + Replit AI Event at DreamWalk", "location": "Orem", "area": "lehi", "attending": 288 },
+        { "time": "7:00 PM", "title": "Vibe-a-thon", "location": "JobNimbus, Lehi", "area": "lehi", "flagged": true, "spots": 22, "attending": 78, "url": "https://app.getriver.io/beta/events/vibe-a-thon-6nlk" },
+        { "time": "7:00 PM", "title": "Roast Lake City Comedy Show", "location": "SLC", "area": "downtown" }
+      ]
+    },
+    {
+      "day": "Wednesday",
+      "date": "2026-02-04",
+      "summit_day": true,
+      "events": [
+        { "time": "7:00 AM", "title": "9th and 9th Whale 5k", "location": "SLC", "area": "downtown" },
+        { "time": "8:00 AM", "title": "Tech Week Breakfast Social", "location": "SLC", "area": "downtown" },
+        { "time": "8:30 AM", "title": "Your Nervous System is the REAL OS", "location": "SLC", "area": "downtown" },
+        { "time": "8:30 AM", "title": "Founders' Fuel with Mayer Brown", "location": "SLC", "area": "downtown" },
+        { "time": "9:00 AM", "title": "Building AI in Utah? Regulation", "location": "SLC", "area": "downtown", "attending": 81 },
+        { "time": "10:30 AM", "title": "Unlocking Tax Treasures: QSBS", "location": "SLC", "area": "downtown" },
+        { "time": "11:45 AM", "title": "Meet, Greet & Eat by Wilson Sonsini", "location": "SLC", "area": "downtown" },
+        { "time": "12:00 PM", "title": "LinkedIn Growth Hacking", "location": "Kiln, Lehi", "area": "lehi", "flagged": true, "spots": 23, "attending": 77, "url": "https://app.getriver.io/beta/events/linkedin-growth-hacking-for-executives-and-gtm-teams-oy3" },
+        { "time": "12:00 PM", "title": "AI in FinTech Lunch & Learn", "location": "SLC", "area": "downtown", "attending": 34 },
+        { "time": "12:00 PM", "title": "Berkeley Haas MBA Info", "location": "The Gateway, SLC", "area": "downtown" },
+        { "time": "1:00 PM", "title": "Bank Charter Options Lunch & Learn", "location": "SLC", "area": "downtown" },
+        { "time": "1:30 PM", "title": "AI-Powered Scale", "location": "SLC", "area": "downtown" },
+        { "time": "1:30 PM", "title": "How to Find Fractional CXO Talent", "location": "SLC", "area": "downtown", "attending": 30 },
+        { "time": "2:30 PM", "title": "Founder Match Night: World Cup Mixer", "location": "625 S 600 W, Downtown SLC", "area": "downtown", "flagged": true, "status": "going_fast", "url": "https://www.eventbrite.com/e/founder-match-night-a-utah-tech-week-world-cup-mixer-tickets-1978176238380" },
+        { "time": "3:30 PM", "title": "PREDICTING PEOPLE: AI + Big Data", "location": "SLC", "area": "downtown" },
+        { "time": "4:00 PM", "title": "PassiveLogic Open House", "location": "Holladay", "area": "other", "attending": 40 },
+        { "time": "4:00 PM", "title": "GTM Networking Event", "location": "SLC", "area": "downtown", "attending": 23 },
+        { "time": "4:00 PM", "title": "The Podcaster Panel by Utah Business", "location": "SLC", "area": "downtown", "attending": 42 },
+        { "time": "4:30 PM", "title": "Speed Networking: Learning Swap", "location": "The Shop, Downtown SLC", "area": "downtown", "flagged": true, "spots": 43, "attending": 57, "url": "https://app.getriver.io/beta/events/speed-networking-the-learning-swap-ieah" },
+        { "time": "5:00 PM", "title": "Code & Collaboration Challenge", "location": "SLC", "area": "downtown" },
+        { "time": "6:00 PM", "title": "CEO By Design", "location": "Holladay", "area": "other" },
+        { "time": "6:00 PM", "title": "AI Code Mob: Live Coding", "location": "Lehi", "area": "lehi", "attending": 30 },
+        { "time": "7:00 PM", "title": "Sell -> design -> build", "location": "Draper", "area": "draper", "attending": 60 }
+      ]
+    },
+    {
+      "day": "Thursday",
+      "date": "2026-02-05",
+      "summit_day": true,
+      "events": [
+        { "time": "8:00 AM", "title": "Feed the Machine: Future of Utah Tech", "location": "SLC", "area": "downtown", "attending": 62 },
+        { "time": "8:30 AM", "title": "Cyber Crisis Playbook", "location": "SLC", "area": "downtown", "attending": 55 },
+        { "time": "9:00 AM", "title": "Bagels & Biotech", "location": "SLC", "area": "downtown", "attending": 36 },
+        { "time": "9:00 AM", "title": "BioHive HealthTech Hub", "location": "SLC", "area": "downtown", "attending": 29 },
+        { "time": "11:30 AM", "title": "Growth Investing in AI Lunch & Learn", "location": "SLC", "area": "downtown", "attending": 38 },
+        { "time": "12:30 PM", "title": "Founders Lose Capital Through Fraud", "location": "SLC", "area": "downtown" },
+        { "time": "1:00 PM", "title": "How to Sell to Large Companies", "location": "Pelion Ventures, Draper", "area": "draper", "flagged": true, "spots": 20, "attending": 30, "url": "https://app.getriver.io/beta/events/how-to-sell-to-large-companies-a-buyers-perspective-pdv" },
+        { "time": "3:30 PM", "title": "47G Frontier Tech Network", "location": "SLC", "area": "downtown" },
+        { "time": "4:00 PM", "title": "Founder PitchLab: Zero to One", "location": "SLC", "area": "downtown", "attending": 64 },
+        { "time": "5:30 PM", "title": "Building Internal AI Tools", "location": "SLC", "area": "downtown" },
+        { "time": "5:30 PM", "title": "Fintech x Crypto: Stablecoin Playbook", "location": "SLC", "area": "downtown" },
+        { "time": "6:00 PM", "title": "Utah Energy Summit @ Edison House", "location": "SLC", "area": "downtown", "attending": 82 },
+        { "time": "7:00 PM", "title": "Queers in Tech Week Mixer", "location": "SLC", "area": "downtown" },
+        { "time": "8:45 PM", "title": "Utah Energy Summit Happy Hour", "location": "SLC", "area": "downtown", "attending": 53 }
+      ]
+    },
+    {
+      "day": "Friday",
+      "date": "2026-02-06",
+      "summit_day": true,
+      "events": [
+        { "time": "8:00 AM", "title": "Progression 2026 Warm Up Laps", "location": "TBD", "area": "other" },
+        { "time": "9:30 AM", "title": "Shaping Utah's AI Future", "location": "SLC", "area": "downtown", "attending": 41 },
+        { "time": "10:00 AM", "title": "Blood, Blisters, and Tech with Ruck", "location": "Lehi", "area": "lehi", "attending": 20 },
+        { "time": "11:30 AM", "title": "Utah ConTech Showcase", "location": "Lehi", "area": "lehi" },
+        { "time": "11:45 AM", "title": "Everyone Sells Workshop", "location": "SLC", "area": "downtown" },
+        { "time": "12:00 PM", "title": "Utah Student Tech Day events", "location": "Draper", "area": "draper" },
+        { "time": "2:00 PM", "title": "Disruptors Connect AI Training", "location": "North SLC", "area": "downtown", "attending": 43 },
+        { "time": "4:00 PM", "title": "When EOS Isn't Enough Workshop", "location": "SLC", "area": "downtown" },
+        { "time": "5:00 PM", "title": "400 Drone Light Show", "location": "Springville", "area": "other", "attending": 25 }
+      ]
+    },
+    {
+      "day": "Saturday",
+      "date": "2026-02-07",
+      "summit_day": true,
+      "events": [
+        { "time": "8:00 AM", "title": "Peaks with Geeks", "location": "SLC", "area": "downtown" },
+        { "time": "9:00 AM", "title": "AI Agents Hackathon", "location": "Lehi", "area": "lehi" },
+        { "time": "12:00 PM", "title": "Ensign Digital Product Design", "location": "SLC", "area": "downtown", "attending": 49 },
+        { "time": "2:30 PM", "title": "UVU Founders on the Slopes", "location": "Sundance", "area": "other" },
+        { "time": "5:30 PM", "title": "Utah Tech Week Closing Party", "location": "Draper Airborne", "area": "draper", "attending": 687 }
+      ]
+    }
+  ]
+}

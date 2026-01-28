@@ -1,0 +1,135 @@
+{
+  "metadata": {
+    "description": "Events I'm interested in attending",
+    "last_updated": "2025-01-27"
+  },
+  "flagged_events": [
+    {
+      "title": "Startup Validation Workshop",
+      "day": "Tuesday",
+      "date": "2025-02-03",
+      "time": "11:00 AM - 12:00 PM",
+      "location": "Kiln, Lehi",
+      "area": "lehi",
+      "status": "available",
+      "spots_remaining": 89,
+      "notes": "Good for early-stage validation techniques"
+    },
+    {
+      "title": "Out-of-Town VC Happy Hour",
+      "day": "Tuesday",
+      "date": "2025-02-03",
+      "time": "4:30 PM - 7:30 PM",
+      "location": "Felt Bar, Downtown SLC",
+      "area": "downtown",
+      "status": "low",
+      "spots_remaining": 5,
+      "approval_required": true,
+      "notes": "Limited spots, requires approval - apply early"
+    },
+    {
+      "title": "Utah HealthTech Network Launch",
+      "day": "Tuesday",
+      "date": "2025-02-03",
+      "time": "5:00 PM - 8:00 PM",
+      "location": "Microsoft, Lehi",
+      "area": "lehi",
+      "status": "full",
+      "waitlist": true,
+      "notes": "FULL - join waitlist. Conflicts with VC Happy Hour"
+    },
+    {
+      "title": "Utopian City Building",
+      "day": "Tuesday",
+      "date": "2025-02-03",
+      "time": "6:00 PM - 7:00 PM",
+      "location": "HAVN, Downtown SLC",
+      "area": "downtown",
+      "status": "available",
+      "notes": "Downtown - could attend after VC Happy Hour starts"
+    },
+    {
+      "title": "Vibe-a-thon",
+      "day": "Tuesday",
+      "date": "2025-02-03",
+      "time": "7:00 PM - 10:00 PM",
+      "location": "JobNimbus, Lehi",
+      "area": "lehi",
+      "status": "available",
+      "spots_remaining": 22,
+      "attending": 78,
+      "notes": "Evening hackathon-style event"
+    },
+    {
+      "title": "LinkedIn Growth Hacking",
+      "day": "Wednesday",
+      "date": "2025-02-04",
+      "time": "12:00 PM - 1:00 PM",
+      "location": "Kiln, Lehi",
+      "area": "lehi",
+      "status": "available",
+      "spots_remaining": 23,
+      "attending": 77,
+      "notes": "SUMMIT DAY - This is in Lehi, not downtown. Would need to skip Summit lunch"
+    },
+    {
+      "title": "Founder Match Night: World Cup Mixer",
+      "day": "Wednesday",
+      "date": "2025-02-04",
+      "time": "2:30 PM - 4:30 PM",
+      "location": "625 S 600 W, Downtown SLC",
+      "area": "downtown",
+      "status": "going_fast",
+      "notes": "SUMMIT DAY - Downtown, ~10 min from Salt Palace. Good afternoon break from Summit"
+    },
+    {
+      "title": "Speed Networking: Learning Swap",
+      "day": "Wednesday",
+      "date": "2025-02-04",
+      "time": "4:30 PM - 6:30 PM",
+      "location": "The Shop, Downtown SLC",
+      "area": "downtown",
+      "status": "available",
+      "spots_remaining": 43,
+      "attending": 57,
+      "notes": "SUMMIT DAY - Downtown, can attend before Summit after-parties start"
+    },
+    {
+      "title": "How to Sell to Large Companies",
+      "day": "Thursday",
+      "date": "2025-02-05",
+      "time": "1:00 PM - 2:00 PM",
+      "location": "Pelion Ventures, Draper",
+      "area": "draper",
+      "status": "available",
+      "spots_remaining": 20,
+      "attending": 30,
+      "notes": "SUMMIT DAY - In Draper, NOT downtown. Would need to leave Summit"
+    }
+  ],
+  "scheduling_conflicts": [
+    {
+      "events": ["Out-of-Town VC Happy Hour", "Utah HealthTech Network Launch"],
+      "date": "2025-02-03",
+      "time_overlap": "5:00 PM - 7:30 PM",
+      "recommendation": "VC Happy Hour is downtown, HealthTech is full anyway"
+    },
+    {
+      "events": ["LinkedIn Growth Hacking", "Summit Lunch"],
+      "date": "2025-02-04",
+      "time_overlap": "12:00 PM - 1:00 PM",
+      "recommendation": "LinkedIn event is in Lehi - skip if prioritizing Summit"
+    },
+    {
+      "events": ["How to Sell to Large Companies", "Summit Sessions"],
+      "date": "2025-02-05",
+      "time_overlap": "1:00 PM - 2:00 PM",
+      "recommendation": "Event is in Draper, 25+ min from Salt Palace"
+    }
+  ],
+  "location_summary": {
+    "downtown_events": ["Out-of-Town VC Happy Hour", "Utopian City Building", "Founder Match Night", "Speed Networking"],
+    "lehi_events": ["Startup Validation Workshop", "Utah HealthTech Network Launch", "Vibe-a-thon", "LinkedIn Growth Hacking"],
+    "draper_events": ["How to Sell to Large Companies"]
+  }
+}

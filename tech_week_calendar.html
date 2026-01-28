@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Week & Summit 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        summit: '#f5a623',
+                        techweek: '#2196f3',
+                        flagged: '#1565c0',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .event-card {
+            transition: transform 0.15s, box-shadow 0.15s, width 0.15s, left 0.15s;
+            border-top: 1px solid rgba(0, 0, 0, 0.06);
+            border-right: 1px solid rgba(0, 0, 0, 0.06);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .event-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+            z-index: 100 !important;
+            width: calc(100% - 8px) !important;
+            left: 4px !important;
+            right: 4px !important;
+        }
+
+        .single-day .calendar-wrapper {
+            min-width: auto !important;
+        }
+
+        .single-day #header-row,
+        .single-day #calendar-body {
+            grid-template-columns: 70px 1fr !important;
+        }
+
+        /* Hide time and details by default, show on hover */
+        .event-card .hidden-time,
+        .event-card .hidden-detail {
+            display: none;
+        }
+
+        .event-card:hover .hidden-time,
+        .event-card:hover .hidden-detail {
+            display: block;
+        }
+
+        .event-card:hover {
+            overflow: visible;
+            min-height: max(70px, var(--event-height, 70px)) !important;
+        }
+
+        .event-card.bg-emerald-100\/80:hover {
+            background-color: rgb(209 250 229) !important;
+        }
+
+        .event-card.bg-orange-100\/80:hover {
+            background-color: rgb(255 237 213) !important;
+        }
+
+        .event-card.bg-blue-50\/80:hover {
+            background-color: rgb(239 246 255) !important;
+        }
+
+        /* Hover action buttons */
+        .event-card .hover-actions {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+            flex-direction: column;
+            gap: 2px;
+            z-index: 10;
+        }
+
+        .event-card:hover .hover-actions {
+            display: flex;
+        }
+
+        .hover-actions button,
+        .hover-actions a {
+            padding: 2px 6px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            font-weight: 500;
+            cursor: pointer;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            text-decoration: none;
+            background: #f8f9fa;
+            color: #374151;
+            transition: background 0.1s;
+            white-space: nowrap;
+        }
+
+        .hover-actions button:hover,
+        .hover-actions a:hover {
+            background: #e5e7eb;
+        }
+
+        .hover-actions .btn-schedule.in-schedule {
+            background: #d1fae5;
+            color: #047857;
+        }
+
+        .hover-actions .btn-schedule.in-schedule:hover {
+            background: #a7f3d0;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+    <!-- Header -->
+    <header
+        class="bg-gradient-to-r from-slate-900 to-slate-800 text-white px-6 py-2 sticky top-0 z-50 flex items-center justify-between">
+        <h1 class="text-xl font-bold">Utah Tech Week + Silicon Slopes Summit 2026</h1>
+        <div class="flex items-center gap-3">
+            <span class="bg-white/20 px-3 py-1 rounded-full text-sm">Click events to add to schedule</span>
+            <span class="bg-emerald-500/80 px-3 py-1 rounded-full text-sm flex items-center gap-2">
+                <span id="flagged-count">0</span> in schedule
+                <button onclick="clearDaySchedule()" class="text-xs bg-white/20 hover:bg-white/30 px-2 rounded"
+                    id="clear-day-btn" style="display:none;">Clear Day</button>
+                <button onclick="clearAllSchedule()" class="text-xs bg-white/20 hover:bg-white/30 px-2 rounded"
+                    id="clear-all-btn" style="display:none;">Clear</button>
+                <button onclick="exportSchedule()" class="text-xs bg-white/20 hover:bg-white/30 px-2 rounded"
+                    id="export-btn" style="display:none;">Export</button>
+            </span>
+            <span id="hidden-indicator" class="bg-gray-500/80 px-3 py-1 rounded-full text-sm flex items-center gap-2"
+                style="display:none;">
+                <span id="hidden-count">0</span> hidden
+                <button onclick="clearAllHidden()"
+                    class="text-xs bg-white/20 hover:bg-white/30 px-2 rounded">Unhide</button>
+            </span>
+            <div class="relative group">
+                <span
+                    class="w-6 h-6 bg-white/30 rounded-full flex items-center justify-center text-sm cursor-help hover:bg-white/40">?</span>
+                <div
+                    class="absolute right-0 top-8 bg-slate-800 text-white text-xs p-2 rounded shadow-lg w-48 hidden group-hover:block z-50">
+                    Your selections are saved in your browser's local storage.
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Filters -->
+    <div class="bg-white border-b px-6 py-3 flex flex-wrap gap-4 items-center sticky top-[44px] z-40">
+        <div class="flex gap-2 items-center">
+            <span class="text-xs text-gray-500">Day:</span>
+            <button class="day-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-blue-600 text-white"
+                data-day="all">All</button>
+            <button class="day-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-gray-200" data-day="mon">Mon 2</button>
+            <button class="day-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-gray-200" data-day="tue">Tue 3</button>
+            <button class="day-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-gray-200 ring-1 ring-orange-400"
+                data-day="wed">Wed 4</button>
+            <button class="day-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-gray-200 ring-1 ring-orange-400"
+                data-day="thu">Thu 5</button>
+            <button class="day-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-gray-200 ring-1 ring-orange-400"
+                data-day="fri">Fri 6</button>
+            <button class="day-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-gray-200 ring-1 ring-orange-400"
+                data-day="sat">Sat 7</button>
+        </div>
+
+        <div class="flex gap-2 items-center">
+            <span class="text-xs text-gray-500">Type:</span>
+            <button class="filter-btn px-3 py-1.5 rounded-full text-xs border bg-slate-800 text-white"
+                data-filter="all">All</button>
+            <button class="filter-btn px-3 py-1.5 rounded-full text-xs border" data-filter="tech-week">Tech
+                Week</button>
+            <button class="filter-btn px-3 py-1.5 rounded-full text-xs border" data-filter="summit">Summit</button>
+            <button class="filter-btn px-3 py-1.5 rounded-full text-xs border" data-filter="flagged">My
+                Schedule</button>
+            <button class="filter-btn px-3 py-1.5 rounded-full text-xs border" data-filter="hidden">Hidden</button>
+        </div>
+
+        <div class="flex gap-2 items-center">
+            <span class="text-xs text-gray-500">Area:</span>
+            <button class="loc-btn px-3 py-1.5 rounded-full text-xs border bg-slate-800 text-white"
+                data-location="all">All</button>
+            <button class="loc-btn px-3 py-1.5 rounded-full text-xs border" data-location="downtown">Downtown
+                SLC</button>
+            <button class="loc-btn px-3 py-1.5 rounded-full text-xs border" data-location="lehi">Lehi</button>
+            <button class="loc-btn px-3 py-1.5 rounded-full text-xs border" data-location="draper">Draper</button>
+        </div>
+
+        <div class="flex gap-4 ml-auto text-xs">
+            <div class="flex items-center gap-1">
+                <div class="w-3 h-3 rounded bg-blue-400"></div> Tech Week
+            </div>
+            <div class="flex items-center gap-1">
+                <div class="w-3 h-3 rounded bg-emerald-500"></div> In Schedule
+            </div>
+            <div class="flex items-center gap-1">
+                <div class="w-3 h-3 rounded bg-orange-400"></div> Summit
+            </div>
+            <div class="flex items-center gap-1">
+                <span class="px-1 py-0.25 bg-green-200 text-green-800 rounded text-[9px]">DT</span> Downtown
+            </div>
+        </div>
+    </div>
+
+    <!-- Calendar -->
+    <div class="p-4 overflow-x-auto" id="calendar-container">
+        <div class="calendar-wrapper min-w-[1400px]">
+            <!-- Header Row -->
+            <div class="grid grid-cols-[70px_repeat(6,1fr)] gap-px bg-gray-200 sticky top-0 z-30" id="header-row">
+                <div class="bg-gray-100 p-3 text-center text-xs font-semibold text-gray-500">Time</div>
+            </div>
+
+            <!-- Body -->
+            <div class="grid grid-cols-[70px_repeat(6,1fr)] gap-px bg-gray-200" id="calendar-body">
+                <div class="bg-gray-50" id="time-col"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="fixed inset-0 bg-black/50 z-50 hidden items-center justify-center" id="modal">
+        <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4 max-h-[80vh] overflow-y-auto">
+            <button class="float-right text-gray-400 hover:text-gray-600 text-2xl"
+                onclick="closeModal()">&times;</button>
+            <h2 class="text-xl font-bold mb-3" id="modal-title"></h2>
+            <p class="text-gray-600 mb-2" id="modal-time"></p>
+            <p class="text-gray-600 mb-2" id="modal-location"></p>
+            <p class="mb-2" id="modal-status"></p>
+            <p class="text-gray-500 italic mb-4" id="modal-speaker"></p>
+            <div class="flex gap-2">
+                <button id="modal-toggle" class="flex-1 px-4 py-2 rounded-lg font-medium"></button>
+                <button id="modal-hide" class="px-4 py-2 rounded-lg font-medium"></button>
+                <a href="#" target="_blank" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300"
+                    id="modal-link">View</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Generate unique ID for each event
+        function eventId(e) {
+            return `${e.day}-${e.time}-${e.title}`.replace(/[^a-z0-9]/gi, '_');
+        }
+
+        // LocalStorage for user's schedule
+        const STORAGE_KEY = 'utw_schedule_2025';
+        const HIDDEN_KEY = 'utw_hidden_2025';
+
+        function getSchedule() {
+            try {
+                return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+            } catch {
+                return {};
+            }
+        }
+
+        function saveSchedule(schedule) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(schedule));
+            updateFlaggedCount();
+            updateClearButtons();
+        }
+
+        function getHidden() {
+            try {
+                return JSON.parse(localStorage.getItem(HIDDEN_KEY)) || {};
+            } catch {
+                return {};
+            }
+        }
+
+        function saveHidden(hidden) {
+            localStorage.setItem(HIDDEN_KEY, JSON.stringify(hidden));
+            updateHiddenCount();
+        }
+
+        function toggleHidden(e) {
+            const hidden = getHidden();
+            const id = eventId(e);
+            if (hidden[id]) {
+                delete hidden[id];
+            } else {
+                hidden[id] = { day: e.day, title: e.title };
+                // Remove from schedule if hiding
+                const schedule = getSchedule();
+                if (schedule[id]) {
+                    delete schedule[id];
+                    saveSchedule(schedule);
+                }
+            }
+            saveHidden(hidden);
+            renderEvents();
+        }
+
+        function isHidden(e) {
+            return !!getHidden()[eventId(e)];
+        }
+
+        function updateHiddenCount() {
+            const count = Object.keys(getHidden()).length;
+            document.getElementById('hidden-count').textContent = count;
+            document.getElementById('hidden-indicator').style.display = count > 0 ? '' : 'none';
+        }
+
+        function clearAllHidden() {
+            if (!confirm('Unhide all hidden events?')) return;
+            saveHidden({});
+            renderEvents();
+        }
+
+        function toggleEventInSchedule(e) {
+            const schedule = getSchedule();
+            const id = eventId(e);
+            if (schedule[id]) {
+                delete schedule[id];
+            } else {
+                schedule[id] = { day: e.day, title: e.title, time: e.time };
+            }
+            saveSchedule(schedule);
+            renderEvents();
+        }
+
+        function isInSchedule(e) {
+            return !!getSchedule()[eventId(e)];
+        }
+
+        function updateFlaggedCount() {
+            const count = Object.keys(getSchedule()).length;
+            document.getElementById('flagged-count').textContent = count;
+        }
+
+        function updateClearButtons() {
+            const schedule = getSchedule();
+            const count = Object.keys(schedule).length;
+            document.getElementById('clear-all-btn').style.display = count > 0 ? '' : 'none';
+            document.getElementById('export-btn').style.display = count > 0 ? '' : 'none';
+
+            // Show clear day button if viewing single day and that day has events
+            if (filters.day !== 'all') {
+                const dayCount = Object.values(schedule).filter(s => s.day === filters.day).length;
+                document.getElementById('clear-day-btn').style.display = dayCount > 0 ? '' : 'none';
+            } else {
+                document.getElementById('clear-day-btn').style.display = 'none';
+            }
+        }
+
+        function clearDaySchedule() {
+            if (filters.day === 'all') return;
+            if (!confirm(`Clear all events from ${dayInfo[filters.day].name}?`)) return;
+            const schedule = getSchedule();
+            Object.keys(schedule).forEach(id => {
+                if (schedule[id].day === filters.day) delete schedule[id];
+            });
+            saveSchedule(schedule);
+            renderEvents();
+        }
+
+        function clearAllSchedule() {
+            if (!confirm('Clear your entire schedule?')) return;
+            saveSchedule({});
+            renderEvents();
+        }
+
+        function exportSchedule() {
+            const schedule = getSchedule();
+            const scheduledIds = Object.keys(schedule);
+            if (scheduledIds.length === 0) return;
+
+            // Get scheduled events and sort by day then time
+            const scheduled = events.filter(e => {
+                return scheduledIds.includes(eventId(e));
+            }).sort((a, b) => {
+                const dayOrder = days.indexOf(a.day) - days.indexOf(b.day);
+                if (dayOrder !== 0) return dayOrder;
+                return a.time - b.time;
+            });
+
+            // Group by day
+            const byDay = {};
+            scheduled.forEach(e => {
+                if (!byDay[e.day]) byDay[e.day] = [];
+                byDay[e.day].push(e);
+            });
+
+            // Build text output
+            let text = 'My Utah Tech Week Schedule\n';
+            text += '==========================\n\n';
+
+            days.forEach(day => {
+                if (!byDay[day]) return;
+                const info = dayInfo[day];
+                text += info.name + ': ' + info.date + ', 2026\n';
+                text += '-'.repeat(30) + '\n';
+
+                byDay[day].forEach(e => {
+                    text += '\n' + formatTime(e.time) + ' - ' + e.title + '\n';
+                    text += '  Location: ' + e.location + '\n';
+                    if (e.url) {
+                        text += '  Link: ' + e.url + '\n';
+                    } else {
+                        text += '  Link: ' + getEventUrl(e) + '\n';
+                    }
+                });
+                text += '\n\n';
+            });
+
+            // Download as file
+            const blob = new Blob([text], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'tech-week-schedule.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        let events = [];
+
+        // Load data from JSON files
+        async function loadData() {
+            const dayMap = { 'Monday': 'mon', 'Tuesday': 'tue', 'Wednesday': 'wed', 'Thursday': 'thu', 'Friday': 'fri', 'Saturday': 'sat' };
+
+            // Parse time string like "7:00 AM" or "2:30 PM" to 24h format "7:00" or "14:30"
+            function parseTime(timeStr) {
+                const match = timeStr.match(/(\d+):(\d+)\s*(AM|PM)/i);
+                if (!match) return timeStr;
+                let [, h, m, ampm] = match;
+                h = parseInt(h);
+                if (ampm.toUpperCase() === 'PM' && h !== 12) h += 12;
+                if (ampm.toUpperCase() === 'AM' && h === 12) h = 0;
+                return `${h}:${m.padStart(2, '0')}`;
+            }
+
+            // Parse duration from time range like "9:00 AM - 10:30 AM"
+            function parseDuration(timeRange) {
+                const parts = timeRange.split(' - ');
+                if (parts.length !== 2) return 60;
+                const start = parseTime(parts[0]);
+                const end = parseTime(parts[1]);
+                const [sh, sm] = start.split(':').map(Number);
+                const [eh, em] = end.split(':').map(Number);
+                return (eh * 60 + em) - (sh * 60 + sm);
+            }
+
+            try {
+                // Load URL lookup
+                let urlLookup = {};
+                try {
+                    const urlRes = await fetch('data/event_urls.json');
+                    const urlData = await urlRes.json();
+                    urlLookup = urlData.urls || {};
+                } catch (e) {
+                    console.log('URL lookup not loaded, using fallbacks');
+                }
+
+                // Load Tech Week events
+                const twRes = await fetch('data/tech_week_events.json');
+                const twData = await twRes.json();
+
+                twData.events.forEach(dayData => {
+                    const dayKey = dayMap[dayData.day];
+                    dayData.events.forEach(e => {
+                        events.push({
+                            day: dayKey,
+                            date: dayData.date,
+                            time: parseTime(e.time),
+                            duration: e.duration === 'all day' ? 480 : 60,
+                            title: e.title,
+                            location: e.location,
+                            area: e.area,
+                            type: 'tech-week',
+                            attending: e.attending,
+                            spots: e.spots,
+                            status: e.status,
+                            approval: e.approval_required,
+                            url: e.url || urlLookup[e.title]
+                        });
+                    });
+                });
+
+                // Load Summit sessions
+                const sumRes = await fetch('data/summit_sessions.json');
+                const sumData = await sumRes.json();
+
+                sumData.schedule.forEach(dayData => {
+                    const dayKey = dayMap[dayData.day];
+                    dayData.sessions.forEach(s => {
+                        events.push({
+                            day: dayKey,
+                            date: dayData.date,
+                            time: parseTime(s.time.split(' - ')[0]),
+                            duration: parseDuration(s.time),
+                            title: s.title,
+                            location: s.location || 'Salt Palace',
+                            area: 'downtown',
+                            type: 'summit',
+                            speaker: s.speaker,
+                            url: s.url
+                        });
+                    });
+                });
+
+                console.log(`Loaded ${events.length} events`);
+            } catch (err) {
+                console.error('Failed to load data:', err);
+            }
+        }
+
+        const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+        const dayInfo = {
+            mon: { name: 'Monday', date: 'Feb 2', summit: false },
+            tue: { name: 'Tuesday', date: 'Feb 3', summit: false },
+            wed: { name: 'Wednesday', date: 'Feb 4', summit: true },
+            thu: { name: 'Thursday', date: 'Feb 5', summit: true },
+            fri: { name: 'Friday', date: 'Feb 6', summit: true },
+            sat: { name: 'Saturday', date: 'Feb 7', summit: true }
+        };
+
+        let filters = { day: 'all', type: 'all', location: 'all' };
+        let currentModalEvent = null;
+
+        async function init() {
+            await loadData();
+            buildHeader();
+            buildTimeCol();
+            buildDayCols();
+            renderEvents();
+            setupFilters();
+            updateFlaggedCount();
+            updateClearButtons();
+            updateHiddenCount();
+        }
+
+        function buildHeader() {
+            const row = document.getElementById('header-row');
+            days.forEach(d => {
+                const cell = document.createElement('div');
+                cell.dataset.day = d;
+                cell.className = `p-3 text-center ${dayInfo[d].summit ? 'bg-orange-50' : 'bg-gray-100'}`;
+                cell.innerHTML = `
+                    <div class="font-semibold text-sm">${dayInfo[d].name}</div>
+                    <div class="text-xs text-gray-500">${dayInfo[d].date} ${dayInfo[d].summit ? '<span class="ml-1 px-1 py-0.5 bg-orange-400 text-white text-[9px] rounded-full align-middle">SUMMIT</span>' : ''}</div>
+                `;
+                row.appendChild(cell);
+            });
+        }
+
+        function buildTimeCol() {
+            const col = document.getElementById('time-col');
+            for (let h = 6; h <= 23; h++) {
+                const slot = document.createElement('div');
+                slot.className = 'h-[60px] pr-2 text-right text-xs text-gray-500 border-b border-gray-100';
+                slot.textContent = `${h > 12 ? h - 12 : h}${h >= 12 ? 'pm' : 'am'}`;
+                col.appendChild(slot);
+            }
+        }
+
+        function buildDayCols() {
+            const body = document.getElementById('calendar-body');
+            days.forEach(d => {
+                const col = document.createElement('div');
+                col.className = 'bg-white relative';
+                col.dataset.day = d;
+                col.id = `col-${d}`;
+                col.style.height = `${18 * 60}px`;
+                body.appendChild(col);
+            });
+        }
+
+        function timeToTop(timeStr) {
+            const [h, m] = timeStr.split(':').map(Number);
+            return ((h - 6) * 60 + (m || 0));
+        }
+
+        function getEventUrl(e) {
+            if (e.type === 'summit') {
+                return `https://community.summit.ing/events/summit-2026/sessions?day=${e.date}`;
+            } else if (e.url) {
+                return e.url;
+            } else {
+                return `https://app.getriver.io/utahtechweek?tab=events-view&day=${e.date}`;
+            }
+        }
+
+        function renderEvents() {
+            days.forEach(d => {
+                document.getElementById(`col-${d}`).innerHTML = '';
+            });
+
+            const filtered = events.filter(e => {
+                if (filters.day !== 'all' && e.day !== filters.day) return false;
+                if (filters.type === 'tech-week' && e.type !== 'tech-week') return false;
+                if (filters.type === 'summit' && e.type !== 'summit') return false;
+                if (filters.type === 'flagged' && !isInSchedule(e)) return false;
+                if (filters.type === 'hidden' && !isHidden(e)) return false;
+                if (filters.type !== 'hidden' && isHidden(e)) return false; // Hide hidden events unless viewing hidden
+                if (filters.location !== 'all' && e.area !== filters.location) return false;
+                return true;
+            });
+
+            // Group by day for overlap handling
+            const byDay = {};
+            filtered.forEach(e => {
+                if (!byDay[e.day]) byDay[e.day] = [];
+                byDay[e.day].push(e);
+            });
+
+            Object.keys(byDay).forEach(d => {
+                const col = document.getElementById(`col-${d}`);
+                const evts = byDay[d].sort((a, b) => timeToTop(a.time) - timeToTop(b.time));
+
+                // Google Calendar style: collision groups + expansion
+                // Step 1: Build collision groups (clusters of overlapping events)
+                const groups = [];
+                evts.forEach(e => {
+                    e._start = timeToTop(e.time);
+                    e._end = e._start + e.duration;
+
+                    // Find a group this event overlaps with
+                    let foundGroup = null;
+                    for (const g of groups) {
+                        if (e._start < g.end && e._end > g.start) {
+                            foundGroup = g;
+                            break;
+                        }
+                    }
+
+                    if (foundGroup) {
+                        foundGroup.events.push(e);
+                        foundGroup.start = Math.min(foundGroup.start, e._start);
+                        foundGroup.end = Math.max(foundGroup.end, e._end);
+                    } else {
+                        groups.push({ start: e._start, end: e._end, events: [e] });
+                    }
+                });
+
+                // Step 2: Within each group, assign columns
+                groups.forEach(g => {
+                    const columns = []; // each column tracks its end time
+                    g.events.sort((a, b) => a._start - b._start);
+
+                    g.events.forEach(e => {
+                        // Find first column where event fits
+                        let col = 0;
+                        while (columns[col] && columns[col] > e._start) col++;
+                        columns[col] = e._end;
+                        e._col = col;
+                    });
+
+                    const totalCols = columns.length;
+
+                    // Step 3: Expansion - each event expands right until it hits another
+                    g.events.forEach(e => {
+                        let expandTo = totalCols; // default: expand to edge
+
+                        // Check all events in columns to our right
+                        for (const other of g.events) {
+                            if (other._col > e._col) {
+                                // Does this event overlap with us in time?
+                                if (other._start < e._end && other._end > e._start) {
+                                    expandTo = Math.min(expandTo, other._col);
+                                }
+                            }
+                        }
+
+                        e._colSpan = expandTo - e._col;
+                        e._totalCols = totalCols;
+                    });
+                });
+
+                evts.forEach(e => {
+                    const div = document.createElement('div');
+                    const top = timeToTop(e.time);
+                    const height = Math.max(e.duration, 25);
+                    const inSchedule = isInSchedule(e);
+
+                    let bg, borderColor;
+                    if (inSchedule) {
+                        bg = 'bg-emerald-100/80';
+                        borderColor = 'border-l-emerald-500';
+                    } else if (e.type === 'summit') {
+                        bg = 'bg-orange-100/80';
+                        borderColor = 'border-l-orange-400';
+                    } else {
+                        bg = 'bg-blue-50/80';
+                        borderColor = 'border-l-blue-400';
+                    }
+
+                    let ring = '';
+
+                    div.className = `event-card absolute p-1.5 rounded text-[11px] border-l-4 overflow-hidden ${bg} ${borderColor} ${ring}`;
+                    div.style.top = `${top}px`;
+                    div.style.height = `${height}px`;
+                    div.style.minHeight = `${height}px`;
+                    div.style.setProperty('--event-height', `${height}px`);
+                    div.style.left = '4px';
+                    div.style.right = '4px';
+
+                    if (e._totalCols > 1) {
+                        const colWidth = 100 / e._totalCols;
+                        const w = (colWidth * e._colSpan) - 1; // span multiple columns if expanded
+                        div.style.width = `${w}%`;
+                        div.style.left = `${e._col * colWidth}%`;
+                        div.style.right = 'auto';
+                    }
+
+                    let badge = '';
+                    if (e.status === 'full') badge = '<span class="px-0.5 bg-red-100 text-red-700 rounded text-[8px] font-semibold">FULL</span>';
+                    else if (e.status === 'low' || (e.spots && e.spots <= 25)) badge = `<span class="px-0.5 bg-yellow-100 text-yellow-700 rounded text-[8px] font-semibold">${e.spots || 'Low'}</span>`;
+                    else if (e.spots) badge = `<span class="px-0.5 bg-green-100 text-green-700 rounded text-[8px]">${e.spots}</span>`;
+
+                    const areaLabels = { downtown: 'DT', lehi: 'LH', draper: 'DR', other: '?' };
+                    const areaTag = e.type === 'summit' ? '' : (e.area === 'downtown'
+                        ? '<span class="px-0.5 bg-green-200 text-green-800 rounded text-[8px]">DT</span>'
+                        : `<span class="px-0.5 bg-gray-200 text-gray-600 rounded text-[8px]">${areaLabels[e.area] || e.area}</span>`);
+
+                    const scheduleIcon = inSchedule ? '<span class="text-emerald-600">✓</span> ' : '';
+                    const schedBtnClass = inSchedule ? 'btn-schedule in-schedule' : 'btn-schedule';
+                    const schedBtnText = inSchedule ? 'added' : 'add';
+                    const linkText = e.type === 'summit' ? 'schedule' : (e.url ? 'view' : 'find');
+
+                    div.innerHTML = `
+                        <div class="font-semibold leading-tight pr-10">${scheduleIcon}${e.title}</div>
+                        <div class="text-gray-500 text-[10px] hidden-time">${formatTime(e.time)} - ${formatEndTime(e.time, e.duration)}</div>
+                        <div class="text-gray-600 text-[10px] truncate hidden-detail">${e.location}</div>
+                        <div class="flex gap-1 flex-wrap mt-0.5">${areaTag} ${badge}</div>
+                        ${e.speaker ? `<div class="text-gray-500 italic text-[9px] truncate hidden-detail">${e.speaker}</div>` : ''}
+                        <div class="hover-actions">
+                            <button class="${schedBtnClass}">${schedBtnText}</button>
+                            <button class="btn-hide">hide</button>
+                            <a href="${getEventUrl(e)}" target="_blank" class="btn-link">${linkText}</a>
+                        </div>
+                    `;
+
+                    // Add click handlers for the action buttons
+                    const schedBtn = div.querySelector('.btn-schedule');
+                    const hideBtn = div.querySelector('.btn-hide');
+
+                    schedBtn.onclick = (evt) => {
+                        evt.stopPropagation();
+                        toggleEventInSchedule(e);
+                        renderEvents();
+                    };
+
+                    hideBtn.onclick = (evt) => {
+                        evt.stopPropagation();
+                        toggleHidden(e);
+                        renderEvents();
+                    };
+
+                    col.appendChild(div);
+                });
+            });
+
+            // Show/hide columns and update layout for single day
+            const container = document.getElementById('calendar-container');
+            if (filters.day !== 'all') {
+                container.classList.add('single-day');
+            } else {
+                container.classList.remove('single-day');
+            }
+
+            days.forEach(d => {
+                const col = document.getElementById(`col-${d}`);
+                const hdr = document.querySelector(`#header-row [data-day="${d}"]`);
+                const show = filters.day === 'all' || filters.day === d;
+                col.style.display = show ? '' : 'none';
+                hdr.style.display = show ? '' : 'none';
+            });
+
+            updateClearButtons();
+        }
+
+        function formatTime(t) {
+            const [h, m] = t.split(':').map(Number);
+            return `${h > 12 ? h - 12 : h}:${String(m || 0).padStart(2, '0')} ${h >= 12 ? 'PM' : 'AM'}`;
+        }
+
+        function formatEndTime(t, duration) {
+            const [h, m] = t.split(':').map(Number);
+            const totalMin = h * 60 + (m || 0) + duration;
+            const endH = Math.floor(totalMin / 60);
+            const endM = totalMin % 60;
+            return `${endH > 12 ? endH - 12 : endH}:${String(endM).padStart(2, '0')} ${endH >= 12 ? 'PM' : 'AM'}`;
+        }
+
+        function showModal(e) {
+            currentModalEvent = e;
+            document.getElementById('modal-title').textContent = e.title;
+            document.getElementById('modal-time').textContent = `${dayInfo[e.day].name}, ${dayInfo[e.day].date} | ${formatTime(e.time)} - ${formatEndTime(e.time, e.duration)}`;
+            document.getElementById('modal-location').textContent = `📍 ${e.location}`;
+            document.getElementById('modal-speaker').textContent = e.speaker ? `🎤 ${e.speaker}` : '';
+            document.getElementById('modal-speaker').style.display = e.speaker ? '' : 'none';
+
+            let status = e.status === 'full' ? '🔴 FULL' : e.spots ? `🟡 ${e.spots} spots left` : '✅ Available';
+            if (e.approval) status += ' (Approval required)';
+            document.getElementById('modal-status').textContent = status;
+
+            const link = document.getElementById('modal-link');
+            if (e.type === 'summit') {
+                link.href = `https://community.summit.ing/events/summit-2026/sessions?day=${e.date}`;
+                link.textContent = 'Summit Schedule';
+            } else if (e.url) {
+                link.href = e.url;
+                link.textContent = 'Register';
+            } else {
+                // Fallback to day view on River
+                link.href = `https://app.getriver.io/utahtechweek?tab=events-view&day=${e.date}`;
+                link.textContent = 'Find Event';
+            }
+
+            updateModalToggleButton();
+
+            document.getElementById('modal').classList.remove('hidden');
+            document.getElementById('modal').classList.add('flex');
+        }
+
+        function updateModalToggleButton() {
+            const btn = document.getElementById('modal-toggle');
+            const hideBtn = document.getElementById('modal-hide');
+            const inSchedule = isInSchedule(currentModalEvent);
+            const hidden = isHidden(currentModalEvent);
+
+            if (inSchedule) {
+                btn.textContent = '✓ In Schedule';
+                btn.className = 'flex-1 px-4 py-2 rounded-lg font-medium bg-emerald-100 text-emerald-700 hover:bg-red-100 hover:text-red-700';
+            } else {
+                btn.textContent = '+ Add';
+                btn.className = 'flex-1 px-4 py-2 rounded-lg font-medium bg-blue-600 text-white hover:bg-blue-700';
+            }
+            btn.onclick = () => {
+                toggleEventInSchedule(currentModalEvent);
+                updateModalToggleButton();
+            };
+
+            if (hidden) {
+                hideBtn.textContent = 'Unhide';
+                hideBtn.className = 'px-4 py-2 rounded-lg font-medium bg-gray-300 text-gray-700 hover:bg-gray-400';
+            } else {
+                hideBtn.textContent = 'Hide';
+                hideBtn.className = 'px-4 py-2 rounded-lg font-medium bg-gray-100 text-gray-500 hover:bg-red-100 hover:text-red-600';
+            }
+            hideBtn.onclick = () => {
+                toggleHidden(currentModalEvent);
+                if (isHidden(currentModalEvent)) {
+                    closeModal();
+                } else {
+                    updateModalToggleButton();
+                }
+            };
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.add('hidden');
+            document.getElementById('modal').classList.remove('flex');
+            currentModalEvent = null;
+        }
+
+        function setupFilters() {
+            document.querySelectorAll('.day-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.day-btn').forEach(b => {
+                        b.classList.remove('bg-blue-600', 'text-white');
+                        b.classList.add('bg-gray-200');
+                    });
+                    btn.classList.remove('bg-gray-200');
+                    btn.classList.add('bg-blue-600', 'text-white');
+                    filters.day = btn.dataset.day;
+                    renderEvents();
+                });
+            });
+
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.filter-btn').forEach(b => {
+                        b.classList.remove('bg-slate-800', 'text-white');
+                    });
+                    btn.classList.add('bg-slate-800', 'text-white');
+                    filters.type = btn.dataset.filter;
+                    renderEvents();
+                });
+            });
+
+            document.querySelectorAll('.loc-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.loc-btn').forEach(b => {
+                        b.classList.remove('bg-slate-800', 'text-white');
+                    });
+                    btn.classList.add('bg-slate-800', 'text-white');
+                    filters.location = btn.dataset.location;
+                    renderEvents();
+                });
+            });
+        }
+
+        document.getElementById('modal').addEventListener('click', e => {
+            if (e.target.id === 'modal') closeModal();
+        });
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        init();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,86 @@
+{
+  "metadata": {
+    "event": "Silicon Slopes Summit 2026",
+    "location": "Salt Palace Convention Center, Downtown SLC",
+    "dates": "February 4-7, 2026"
+  },
+  "schedule": [
+    {
+      "day": "Wednesday",
+      "date": "2026-02-04",
+      "hours": "7 AM - 8 PM",
+      "sessions": [
+        { "time": "7:00 AM - 9:00 AM", "title": "Registration & Networking" },
+        { "time": "9:00 AM - 9:15 AM", "title": "Opening Remarks" },
+        { "time": "9:15 AM - 10:00 AM", "title": "Keynote" },
+        { "time": "10:00 AM - 10:45 AM", "title": "The Wonder Economy", "speaker": "Theo Edmonds", "role": "Culture Futurist, Creativity America" },
+        { "time": "10:45 AM - 11:00 AM", "title": "Seek Your Summit", "speaker": "Jenn Drummond", "role": "World Record-Holding Mountaineer" },
+        { "time": "11:00 AM - 11:45 AM", "title": "Gaming and Music - Connecting the World", "speaker": "Dan Reynolds, Mac Reynolds", "role": "Imagine Dragons / Night Street Games" },
+        { "time": "12:00 PM - 1:00 PM", "title": "Lunch & Networking" },
+        { "time": "1:00 PM - 1:30 PM", "title": "The Workforce Rewritten: People Strategy in the Age of AI", "speaker": "Panel" },
+        { "time": "1:30 PM - 2:00 PM", "title": "Scaling Intelligence: From LLMs to Multi-Modal Agents", "speaker": "Aditya Gautam", "role": "Meta" },
+        { "time": "2:00 PM - 2:45 PM", "title": "E-Commerce Panel", "speaker": "Sandi Hendry, Jeff Durham, Darren Saul, Jeff Lind" },
+        { "time": "2:45 PM - 3:30 PM", "title": "Seeing the Unseen: Recognizing the Labor That Fuels Innovation", "speaker": "Panel" },
+        { "time": "3:45 PM - 4:00 PM", "title": "The Leadership Operating System", "speaker": "Lavanya Mahate", "role": "RISE Culinary Institute, Saffron Valley" },
+        { "time": "3:45 PM - 4:30 PM", "title": "Pro Athletes as Investors and Entrepreneurs", "speaker": "Bronson Kaufusi, Deatrich Wise, Thomas Hudson", "role": "Former NFL Players" },
+        { "time": "5:00 PM - 8:00 PM", "title": "VIP Party", "location": "Edison House" }
+      ]
+    },
+    {
+      "day": "Thursday",
+      "date": "2026-02-05",
+      "hours": "8 AM - 10 PM",
+      "sessions": [
+        { "time": "8:00 AM - 9:00 AM", "title": "Registration & Networking" },
+        { "time": "9:00 AM - 9:05 AM", "title": "Opening Remarks" },
+        { "time": "9:05 AM - 9:15 AM", "title": "Welcome", "speaker": "Jefferson Moss", "role": "Executive Director, Governor's Office of Economic Opportunity" },
+        { "time": "9:15 AM - 9:45 AM", "title": "AI in Regulated Industries", "speaker": "Sean Desmond", "role": "nCino CEO" },
+        { "time": "9:45 AM - 10:30 AM", "title": "Where is the Value in AI Being Created? Hype or Bubble?", "speaker": "VC Panel", "role": "Cross Creek, Beta Boom, SVB, Kickstart" },
+        { "time": "10:30 AM - 11:30 AM", "title": "Architect of Joy", "speaker": "Kenny Ortega, Mark Hofeling", "role": "Director (High School Musical, Dirty Dancing)" },
+        { "time": "11:30 AM - 11:45 AM", "title": "Unforgettable Presence", "speaker": "Lorraine K Lee, Trina Limpert" },
+        { "time": "12:00 PM - 1:00 PM", "title": "Lunch & Networking" },
+        { "time": "1:00 PM - 1:30 PM", "title": "Partnership as Power", "speaker": "Jean Oelwang", "role": "Virgin Unite" },
+        { "time": "1:30 PM - 2:15 PM", "title": "How Does a VC Evaluate AI Startups Beyond the Hype?", "speaker": "Dave Elkington, Rob Keith, Ethan Choi, Matt Garratt", "role": "Khosla Ventures, USVP, Salesforce Ventures" },
+        { "time": "2:15 PM - 3:00 PM", "title": "Insights on Private Markets and the Current M&A Landscape", "speaker": "Mitch Rencher, Randal Quarles, Michael Bennett, Tanner Ainge" },
+        { "time": "3:45 PM - 4:15 PM", "title": "From Connection to Action", "speaker": "Dr. Gina Hawley, Karesha McGee" },
+        { "time": "4:15 PM - 5:00 PM", "title": "Winning in Vertical AI" },
+        { "time": "6:00 PM - 7:00 PM", "title": "VIP Meet and Greet: Kenny Ortega", "location": "Eccles Theatre" },
+        { "time": "7:30 PM - 10:00 PM", "title": "Dirty Dancing Live", "location": "Eccles Theatre" }
+      ]
+    },
+    {
+      "day": "Friday",
+      "date": "2026-02-06",
+      "hours": "8 AM - 10 PM",
+      "sessions": [
+        { "time": "8:00 AM - 9:00 AM", "title": "Registration & Networking" },
+        { "time": "9:00 AM - 9:05 AM", "title": "Opening Remarks" },
+        { "time": "9:05 AM - 9:45 AM", "title": "In Conversation: Crafting Comedy", "speaker": "Jared Hess, Jerusha Hess", "role": "Filmmakers (Napoleon Dynamite, Nacho Libre, A Minecraft Movie)" },
+        { "time": "10:00 AM - 10:30 AM", "title": "AI Will Run Revenue", "speaker": "Amit Bendov", "role": "Gong CEO" },
+        { "time": "10:30 AM - 10:45 AM", "title": "Leadership by Design", "speaker": "Bahaa Chmait" },
+        { "time": "10:45 AM - 11:45 AM", "title": "What's Your Story? AI as a Creative Collaborator", "speaker": "King Willonious", "role": "Comedian, Futurist, Creative Technologist" },
+        { "time": "12:00 PM - 1:00 PM", "title": "Lunch & Networking" },
+        { "time": "1:00 PM - 1:30 PM", "title": "From Startup to Public Company", "speaker": "Henry Schuck", "role": "ZoomInfo CEO" },
+        { "time": "1:30 PM - 2:15 PM", "title": "AI is Only as Smart as Your Data", "speaker": "Jaspreet Singh", "role": "Druva CEO" },
+        { "time": "2:15 PM - 3:00 PM", "title": "The AI Revenue Org: What the Sales Team of 2030 Looks Like", "speaker": "CRO Panel" },
+        { "time": "3:00 PM - 3:30 PM", "title": "Artificial Intelligence vs Artificial Innovation", "speaker": "Dr. Sidni Shorter, Martine Celestin" },
+        { "time": "3:30 PM - 4:00 PM", "title": "CIO Panel", "speaker": "Keith Lutz", "role": "Druva CIO" },
+        { "time": "4:00 PM - 4:45 PM", "title": "Sports Panel" },
+        { "time": "5:00 PM - 7:00 PM", "title": "The Watch Party", "location": "Civic Center" },
+        { "time": "7:00 PM - 10:00 PM", "title": "Olympic Celebration - Primetime Broadcast", "location": "Civic Center" }
+      ]
+    },
+    {
+      "day": "Saturday",
+      "date": "2026-02-07",
+      "hours": "11 AM - 5 PM",
+      "title": "Winter Roundup",
+      "location": "West Temple Street",
+      "sessions": [
+        { "time": "11:00 AM - 5:00 PM", "title": "Winter Roundup", "description": "A celebration where Skijoring meets the Days of '47 Rodeo, Olympic history, arts, culture, and family-friendly festivities." },
+        { "time": "1:00 PM - 3:00 PM", "title": "Skijoring" },
+        { "time": "3:00 PM - 5:00 PM", "title": "Performance & Dancing" }
+      ]
+    }
+  ]
+}
