@@ -40,6 +40,8 @@
 
         .single-day .calendar-wrapper {
             min-width: auto !important;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         .single-day #header-row,
@@ -84,7 +86,7 @@
             right: 4px;
             top: 4px;
             flex-direction: column;
-            gap: 2px;
+            gap: 4px;
             z-index: 10;
         }
 
@@ -94,36 +96,80 @@
             }
         }
 
-        .hover-actions button,
-        .hover-actions a {
-            padding: 2px 6px;
-            border-radius: 4px;
+        .btn-row {
+            display: flex !important;
+            flex-direction: row !important;
+            gap: 4px;
+        }
+
+        .btn-row button {
+            flex: 1;
+            padding: 5px 8px;
+            border-radius: 5px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 9px;
-            font-weight: 500;
+            font-size: 11px;
+            font-weight: 600;
             cursor: pointer;
-            border: 1px solid rgba(0, 0, 0, 0.08);
             text-decoration: none;
-            background: #f8f9fa;
+            background: white;
             color: #374151;
             transition: background 0.1s;
             white-space: nowrap;
         }
 
-        .hover-actions button:hover,
-        .hover-actions a:hover {
-            background: #e5e7eb;
+        .hover-actions > a.btn-link {
+            display: flex;
+            padding: 4px 8px;
+            border-radius: 5px;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            background: white;
+            color: #374151;
+            transition: background 0.1s;
+            white-space: nowrap;
         }
 
-        .hover-actions .btn-schedule.in-schedule {
+        /* Color-coded borders based on event type */
+        .event-card.border-l-blue-400 .btn-row button,
+        .event-card.border-l-blue-400 .btn-link {
+            border: 1px solid #60a5fa;
+        }
+
+        .event-card.border-l-orange-400 .btn-row button,
+        .event-card.border-l-orange-400 .btn-link {
+            border: 1px solid #fb923c;
+        }
+
+        .event-card.border-l-emerald-500 .btn-row button,
+        .event-card.border-l-emerald-500 .btn-link {
+            border: 1px solid #10b981;
+        }
+
+        .hover-actions button:hover,
+        .hover-actions a:hover {
+            background: #f3f4f6;
+        }
+
+        .btn-schedule.in-schedule {
             background: #d1fae5;
             color: #047857;
         }
 
-        .hover-actions .btn-schedule.in-schedule:hover {
+        .btn-schedule.in-schedule:hover {
             background: #a7f3d0;
+        }
+
+        /* Hide "All" day button on narrower screens */
+        @media (max-width: 1450px) {
+            .day-btn[data-day="all"] {
+                display: none !important;
+            }
         }
 
         /* Mobile Styles */
@@ -181,10 +227,6 @@
                 font-size: 11px !important;
             }
 
-            /* Hide "All" day button on mobile */
-            .day-btn[data-day="all"] {
-                display: none !important;
-            }
 
             /* Hide filter labels on mobile */
             .filter-label {
@@ -722,6 +764,10 @@
             return isMobile;
         }
 
+        function isNarrowScreen() {
+            return window.matchMedia('(max-width: 1450px)').matches;
+        }
+
         function setDayFilter(day) {
             // Update UI for day filter buttons
             document.querySelectorAll('.day-btn').forEach(b => {
@@ -808,10 +854,10 @@
         async function init() {
             await loadData();
 
-            // Detect mobile and set default day filter on mobile
+            // Detect mobile and narrow screen
             detectMobile();
-            if (isMobile && window.matchMedia('(max-width: 768px)').matches) {
-                // Default to Monday on mobile
+            // Default to single day view on screens narrower than 1450px
+            if (isNarrowScreen()) {
                 setDayFilter('mon');
             }
 
@@ -825,13 +871,12 @@
             updateHiddenCount();
 
 
-            // Re-detect mobile on resize
+            // Re-detect on resize
             window.addEventListener('resize', () => {
-                const wasMobile = isMobile;
                 detectMobile();
 
-                // If switching from desktop to mobile and showing all days, switch to single day
-                if (!wasMobile && isMobile && window.matchMedia('(max-width: 768px)').matches && filters.day === 'all') {
+                // If narrower than 1450px and showing all days, switch to single day
+                if (isNarrowScreen() && filters.day === 'all') {
                     setDayFilter('mon');
                     renderEvents();
                 }
@@ -1023,18 +1068,20 @@
 
                     const scheduleIcon = inSchedule ? '<span class="text-emerald-600">✓</span> ' : '';
                     const schedBtnClass = inSchedule ? 'btn-schedule in-schedule' : 'btn-schedule';
-                    const schedBtnText = inSchedule ? 'added' : 'add';
-                    const linkText = e.type === 'summit' ? 'schedule' : (e.url ? 'view' : 'find');
+                    const schedBtnText = inSchedule ? '✓ Added' : '+ Add';
+                    const linkText = e.type === 'summit' ? 'Schedule' : (e.url ? 'View' : 'Find');
 
                     div.innerHTML = `
-                        <div class="font-semibold leading-tight pr-10">${scheduleIcon}${e.title}</div>
+                        <div class="font-semibold leading-tight pr-16">${scheduleIcon}${e.title}</div>
                         <div class="text-gray-500 text-[10px] hidden-time">${formatTime(e.time)} - ${formatEndTime(e.time, e.duration)}</div>
                         <div class="text-gray-600 text-[10px] truncate hidden-detail">${e.location}</div>
                         <div class="flex gap-1 flex-wrap mt-0.5">${areaTag} ${badge}</div>
                         ${e.speaker ? `<div class="text-gray-500 italic text-[9px] truncate hidden-detail">${e.speaker}</div>` : ''}
                         <div class="hover-actions">
-                            <button class="${schedBtnClass}">${schedBtnText}</button>
-                            <button class="btn-hide">hide</button>
+                            <div class="btn-row">
+                                <button class="${schedBtnClass}">${schedBtnText}</button>
+                                <button class="btn-hide">Hide</button>
+                            </div>
                             <a href="${getEventUrl(e)}" target="_blank" class="btn-link">${linkText}</a>
                         </div>
                     `;
